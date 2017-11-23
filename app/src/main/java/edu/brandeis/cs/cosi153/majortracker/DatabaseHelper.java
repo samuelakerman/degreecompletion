@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_NAME + " text, "+
             COL_LASTNAME + " text, "+
             COL_EMAIL + " text, " +
-            COL_CIPHERPASS +"text);";
+            COL_CIPHERPASS +" text);";
     SQLiteDatabase myDB;
 
     public DatabaseHelper(Context context) {
