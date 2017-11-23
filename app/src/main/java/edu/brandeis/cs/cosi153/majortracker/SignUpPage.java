@@ -53,6 +53,7 @@ public class SignUpPage extends Activity {
                     ContentValues values = new ContentValues();
                     values.put(DatabaseHelper.COL_NAME,name.getText().toString());
                     values.put(DatabaseHelper.COL_EMAIL,email.getText().toString());
+                    //TODO implement password ciphering
                     values.put(DatabaseHelper.COL_CIPHERPASS,passw1.getText().toString());
                     db.insert(DatabaseHelper.USERS_TABLE,null,values);
                 }

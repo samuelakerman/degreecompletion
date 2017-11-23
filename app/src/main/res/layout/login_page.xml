@@ -1,49 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Username:"
-        android:textSize="24sp"
-        android:layout_above="@+id/emailInput"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="22dp" />
 
-    <EditText
-        android:id="@+id/emailInput"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:text="Username:"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/emailInputLogin"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Password:"
+            android:textSize="24sp"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/emailInputLogin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <EditText
+            android:id="@+id/passwordInputLogin"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:inputType="textPassword"/>
+        <Button
+            android:id="@+id/btn_login_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter"
+            android:layout_below="@+id/passwordInputLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="109dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Password:"
-        android:textSize="24sp"
-        android:id="@+id/textView3"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:id="@+id/passwordInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/btn_login_enter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter"
-        android:layout_marginTop="68dp"
-        android:layout_below="@+id/passwordInput"
-        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </RelativeLayout>
