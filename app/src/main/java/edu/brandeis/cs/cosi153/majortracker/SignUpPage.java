@@ -56,6 +56,10 @@ public class SignUpPage extends Activity {
                     //TODO implement password ciphering
                     values.put(DatabaseHelper.COL_CIPHERPASS,passw1.getText().toString());
                     db.insert(DatabaseHelper.USERS_TABLE,null,values);
+
+                    Intent intent = new Intent(thisContext,Profile.class);
+                    intent.putExtra("user_email",email.getText().toString());
+                    startActivity(intent);
                 }
             }
         });

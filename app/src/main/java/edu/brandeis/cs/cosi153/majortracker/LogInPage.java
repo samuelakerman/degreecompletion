@@ -3,6 +3,7 @@ package edu.brandeis.cs.cosi153.majortracker;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -42,6 +43,12 @@ public class LogInPage  extends Activity{
                 else if(!c.getString(4).toString().equals(password.getText().toString())){
                     Toast.makeText(thisContext,"Invalid password. Try again" ,Toast.LENGTH_LONG).show();
                 }
+                else{
+                    Intent intent = new Intent(thisContext,Profile.class);
+                    intent.putExtra("user_email",email.getText().toString());
+                    startActivity(intent);
+                }
+
             }
         });
     }
