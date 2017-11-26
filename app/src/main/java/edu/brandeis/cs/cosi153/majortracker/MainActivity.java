@@ -2,6 +2,7 @@ package edu.brandeis.cs.cosi153.majortracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,18 @@ public class MainActivity extends Activity {
 
         btn_login=(Button) findViewById(R.id.btn_login);
         btn_signup=(Button) findViewById(R.id.btn_signup);
+
+        //This will create and populate the database during the app installation
+        //avoiding lags while the user is interacting with the app
+        SharedPreferences ratePrefs = getSharedPreferences("First Update", 0);
+        if (!ratePrefs.getBoolean("FrstTime", false)) {
+            DatabaseHelper dbHelper = new DatabaseHelper(this);
+            dbHelper.getWritableDatabase();
+
+            SharedPreferences.Editor edit = ratePrefs.edit();
+            edit.putBoolean("FrstTime", true);
+            edit.commit();
+        }
 
         btn_login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
