@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Created by sebastian on 12/1/17.
  */
 
-public class ClassesList  extends AppCompatActivity {
+public class ClassesList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,11 +18,9 @@ public class ClassesList  extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(Profile.EXTRA_MESSAGE);
+        String message = intent.getStringExtra("major");
 
-
-
-        // Capture the layout's TextView and set the string as its text
+        // Capture the majors_view's TextView and set the string as its text
         TextView textView = (TextView) findViewById(R.id.textViewMajor);
         textView.setText(message);
     }

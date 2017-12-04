@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CLASSES = "create table " + CLASSES_TABLE + " (" + KEY_ID + " integer primary key, " +
             COL_CLASS_NAME + " text, "+
             COL_CLASS_CODE  + " text);";
-    //-----------------------------------classes and majors table definition
+    //-----------------------------------classes and majors_adapter table definition
     public static final String CLASSESMAJORS_TABLE = "classes_majors";
     public static final String COL_CLASS_ID= "class_id";
     public static final String COL_DEPT_ID = "major_id";
@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         JSONParser parser = new JSONParser();
         try{
             //allSubjects has the names of all departments is in JSON format
-            //allMajors containns the names of all majors, similarly for allMinors. Plain text
+            //allMajors containns the names of all majors_adapter, similarly for allMinors. Plain text
             InputStream isDepartments = myContext.getAssets().open(allSubjects);
             InputStream isMajors = myContext.getAssets().open(allMajors);
             InputStream isMinors = myContext.getAssets().open(allMinors);
@@ -186,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             JSONArray jsonArray = (JSONArray) parser.parse(jsonClasses);
             //One class can give credits for more than one major
             //The classes table contains the name and code for each class
-            //CLASSESMAJORS_TABLE links departments/majors with classes
+            //CLASSESMAJORS_TABLE links departments/majors_adapter with classes
             for(Object obj : jsonArray){
                 JSONObject thisClass = (JSONObject) obj;
                 String className = thisClass.get("name").toString();
