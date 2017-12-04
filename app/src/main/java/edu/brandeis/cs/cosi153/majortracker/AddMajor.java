@@ -29,7 +29,7 @@ public class AddMajor extends AppCompatActivity {
         int[] to = {R.id.deptName, R.id.deptCode};
 
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.majors_view, c, from, to);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.majors_adapter, c, from, to);
         ListView expenseList = (ListView) findViewById(R.id.majorView);
         expenseList.setAdapter(adapter);
     }

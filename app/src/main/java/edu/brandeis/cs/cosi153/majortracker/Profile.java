@@ -67,7 +67,7 @@ public class Profile extends AppCompatActivity {
             ObjectEntry item = new ObjectEntry(intent.getStringExtra("Major Name"));
             data.add(item);
             listView = (ListView) findViewById(R.id.myListView);
-           // listView.setAdapter(adapter);
+            // listView.setAdapter(adapter);
         }
     }
 
