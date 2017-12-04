@@ -14,7 +14,7 @@ import android.widget.SimpleCursorAdapter;
 public class AddMajor extends AppCompatActivity {
 
     private SQLiteDatabase db;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,7 @@ public class AddMajor extends AppCompatActivity {
         DatabaseHelper helper = new DatabaseHelper(this);
         db = helper.getReadableDatabase();
 
-        Cursor c = db.rawQuery("select * from "+helper.DEPARTMENTS_TABLE+" where "+helper.COL_DEPT_MAJOR+" = "+1,null);
+        Cursor c = db.rawQuery("select * from "+helper.DEPARTMENTS_TABLE+" where "+helper.COL_DEPT_MAJOR+" = "+1+" order by "+helper.COL_DEPT_NAME,null);
 
         String[] from = {helper.COL_DEPT_NAME, helper.COL_DEPT_CODE};
         int[] to = {R.id.deptName, R.id.deptCode};

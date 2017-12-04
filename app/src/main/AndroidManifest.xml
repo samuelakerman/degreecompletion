@@ -20,6 +20,8 @@
         <activity android:name=".LogInPage"></activity>
         <activity android:name=".SignUpPage"></activity>
         <activity android:name=".Profile"></activity>
+        <activity android:name=".ClassesList"></activity>
+        <activity android:name=".AddMajor"></activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>
