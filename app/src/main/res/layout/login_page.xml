@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        android:background="@drawable/icon"
+        android:background="@drawable/logo"
         android:contentDescription="@string/todo" />
 
     <EditText

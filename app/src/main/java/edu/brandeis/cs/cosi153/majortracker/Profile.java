@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class Profile extends AppCompatActivity {
 
         adapter = new ProfileAdapter(this, data);
         listView = (ListView) findViewById(R.id.myListView);
+
         TextView nameView = (TextView) findViewById(R.id.textViewUserName);
         Cursor c = db.rawQuery("select "+dbHelper.COL_NAME+" from "+dbHelper.USERS_TABLE+" where "+dbHelper.COL_EMAIL+" = "+"\""+email+"\"",null);
         c.moveToFirst();
@@ -52,36 +54,45 @@ public class Profile extends AppCompatActivity {
         addMajor.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(Profile.this,AddMajor.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
+
             }
         });
         addClass.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                sendMessage(v);
+                //sendMessage(v);
+                Intent intent = new Intent(Profile.this,AddClasses.class);
+                startActivity(intent);
             }
         });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK) {
-            ObjectEntry item = new ObjectEntry(intent.getStringExtra("Major Name"));
-            data.add(item);
-            listView = (ListView) findViewById(R.id.myListView);
-            // listView.setAdapter(adapter);
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String majorTitle = intent.getStringExtra("majorTitle");
+
+                ObjectEntry entry = new ObjectEntry(majorTitle);
+
+                data.add(entry);
+                adapter.notifyDataSetChanged();
+
+            }
         }
     }
 
     /**
      * Called when the user taps the Send button
      */
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, ClassesList.class);
-        TextView textView = (TextView) findViewById(R.id.textViewMajor);
-
-        String message = textView.getText().toString();
-        intent.putExtra("major",message);
-        startActivity(intent);
-    }
+//    public void sendMessage(View view) {
+//        Intent intent = new Intent(this, ClassesList.class);
+//        TextView textView = (TextView) findViewById(R.id.textViewMajor);
+//
+//        String message = textView.getText().toString();
+//        intent.putExtra("major",message);
+//        startActivity(intent);
+//    }
 
 //    for (int i = 0; i < listView.data.size();       i++) {//Loop it to get the values
 //        if (data.get(i)) {

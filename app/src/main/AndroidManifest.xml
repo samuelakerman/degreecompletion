@@ -22,6 +22,7 @@
         <activity android:name=".Profile"></activity>
         <activity android:name=".ClassesList"></activity>
         <activity android:name=".AddMajor"></activity>
+        <activity android:name=".AddClasses"></activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>
