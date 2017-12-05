@@ -31,15 +31,13 @@ public class ClassesList extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.majorName);
         textView.setText(message);
         //
-        String major = "Computer Science";
-        textView.setText(major);
 
         DatabaseHelper helper = new DatabaseHelper(this);
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String query = "select * from "+helper.PROGRESS_TABLE+" as pro, "+helper.USERS_TABLE+" as us, "+helper.CLASSESMAJORS_TABLE+" as cm, "+helper.DEPARTMENTS_TABLE+" as dept, "+
                 helper.CLASSES_TABLE+" as cl where pro."+helper.COL_USERP_ID+" = us."+helper.KEY_ID+" and pro."+helper.COL_CLASSP_ID+" = cm."+helper.COL_CLASS_ID+" and cm."+ helper.COL_CLASS_ID+
-                " = cl."+helper.KEY_ID+" and cm."+helper.COL_DEPT_ID+" = dept."+helper.KEY_ID+" and us."+helper.COL_EMAIL+" = \""+email+"\" and dept."+helper.COL_DEPT_NAME+" = \""+major+"\"";
+                " = cl."+helper.KEY_ID+" and cm."+helper.COL_DEPT_ID+" = dept."+helper.KEY_ID+" and us."+helper.COL_EMAIL+" = \""+email+"\" and dept."+helper.COL_DEPT_NAME+" = \""+message+"\"";
         Log.v("QUERY:",query);
 
         Cursor curs = db.rawQuery(query,null);

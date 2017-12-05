@@ -29,7 +29,6 @@ public class Profile extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private String email;
-    private String userId;
 
 
     @Override
@@ -48,7 +47,6 @@ public class Profile extends AppCompatActivity {
         TextView nameView = (TextView) findViewById(R.id.textViewUserName);
         Cursor c = db.rawQuery("select * from "+dbHelper.USERS_TABLE+" where "+dbHelper.COL_EMAIL+" = "+"\""+email+"\"",null);
         c.moveToFirst();
-        userId = c.getString(0);
         nameView.setText(c.getString(1));
         c.close();
 
@@ -86,6 +84,7 @@ public class Profile extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
         });
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -134,10 +133,13 @@ public class Profile extends AppCompatActivity {
      */
     public void sendMessage(View view) {
 
-        Intent intent = new Intent(Profile.this, ClassesList.class);
-        TextView textView = (TextView) findViewById(R.id.textViewMajor);
+        int position = listView.getPositionForView((View) view.getParent());
+        ObjectEntry e = (ObjectEntry) listView.getItemAtPosition(position);
 
-        String message = textView.getText().toString();
+        Intent intent = new Intent(Profile.this, ClassesList.class);
+
+        String message = e.getMajorName();
+
         intent.putExtra("majorDetails",message);
         intent.putExtra("userEmail",email);
         Log.v("Sending message: ","Opening details for "+message);
