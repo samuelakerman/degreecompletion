@@ -54,6 +54,7 @@ public class Profile extends AppCompatActivity {
         addMajor.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(Profile.this,AddMajor.class);
+                intent.putExtra("user_email",email.toString());
                 startActivityForResult(intent,1);
 
             }
@@ -62,6 +63,7 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v){
                 //sendMessage(v);
                 Intent intent = new Intent(Profile.this,AddClasses.class);
+                intent.putExtra("user_email",email.toString());
                 startActivity(intent);
             }
         });

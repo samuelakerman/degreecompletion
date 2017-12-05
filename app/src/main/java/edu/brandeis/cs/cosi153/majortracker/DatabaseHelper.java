@@ -31,9 +31,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //-----------------------------------users table definition
     public static final String USERS_TABLE = "users";
     public static final String KEY_ID = "_id";
-    public static final String COL_NAME = "name";
-    public static final String COL_LASTNAME = "lastname";
-    public static final String COL_EMAIL = "email";
+    public static final String COL_NAME = "user_name";
+    public static final String COL_LASTNAME = "user_lastname";
+    public static final String COL_EMAIL = "user_email";
     public static final String COL_CIPHERPASS = "cipherpass";
     private static final String CREATE_TABLE_USERS = "create table " + USERS_TABLE + " (" + KEY_ID + " integer primary key, " +
             COL_NAME + " text, "+
@@ -42,10 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_CIPHERPASS +" text);";
     //-----------------------------------departments table definition
     public static final String DEPARTMENTS_TABLE = "departments";
-    public static final String COL_DEPT_NAME = "name";
-    public static final String COL_DEPT_CODE = "code";
-    public static final String COL_DEPT_MAJOR = "major";
-    public static final String COL_DEPT_MINOR = "minor";
+    public static final String COL_DEPT_NAME = "dept_name";
+    public static final String COL_DEPT_CODE = "dept_code";
+    public static final String COL_DEPT_MAJOR = "dept_major";
+    public static final String COL_DEPT_MINOR = "dept_minor";
 
     private static final String CREATE_TABLE_DEPT = "create table " + DEPARTMENTS_TABLE + " (" + KEY_ID + " integer primary key, " +
             COL_DEPT_NAME + " text, "+
@@ -54,8 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COL_DEPT_MINOR +" integer);";
     //-----------------------------------classes table definition
     public static final String CLASSES_TABLE = "classes";
-    public static final String COL_CLASS_NAME = "name";
-    public static final String COL_CLASS_CODE = "code";
+    public static final String COL_CLASS_NAME = "class_name";
+    public static final String COL_CLASS_CODE = "class_code";
 
     private static final String CREATE_TABLE_CLASSES = "create table " + CLASSES_TABLE + " (" + KEY_ID + " integer primary key, " +
             COL_CLASS_NAME + " text, "+

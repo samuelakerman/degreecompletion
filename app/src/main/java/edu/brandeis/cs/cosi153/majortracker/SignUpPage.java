@@ -47,7 +47,7 @@ public class SignUpPage extends Activity {
                     Toast.makeText(thisContext,"Password must have at least 6 characters" ,Toast.LENGTH_LONG).show();
                 else if(!passw1.getText().toString().equals(passw2.getText().toString()))
                     Toast.makeText(thisContext,"Passwords do not match" ,Toast.LENGTH_LONG).show();
-                else if(db.rawQuery("SELECT * FROM users where email=\""+email.getText().toString()+"\";",null).getCount()==1)
+                else if(db.rawQuery("SELECT * FROM users where "+DatabaseHelper.COL_EMAIL+"=\""+email.getText().toString()+"\";",null).getCount()==1)
                     Toast.makeText(thisContext,"User already exists. Please login." ,Toast.LENGTH_LONG).show();
                 else {
                     ContentValues values = new ContentValues();

@@ -36,7 +36,7 @@ public class LogInPage  extends Activity{
 
         btn_login_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Cursor c = db.rawQuery("SELECT * FROM users where email=\""+email.getText().toString()+"\";",null);
+                Cursor c = db.rawQuery("SELECT * FROM users where "+dbHelper.COL_EMAIL+"=\""+email.getText().toString()+"\";",null);
                 c.moveToFirst();
                 if(c.getCount()==0)
                     Toast.makeText(thisContext,"User does not exist. Please, sign up" ,Toast.LENGTH_LONG).show();
