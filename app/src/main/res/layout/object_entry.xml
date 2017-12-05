@@ -6,53 +6,57 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textViewMajor"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
             android:text="major"
             android:textAlignment="gravity"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:textSize="22sp" />
 
         <ProgressBar
             android:id="@+id/progressBarMajor"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_toRightOf="@+id/textViewMajor"
-
-
+            android:layout_below="@id/textViewMajor"
+            android:layout_marginEnd="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="15dp"
             android:max="100"
             android:progress="0"
             android:visibility="visible"
             tools:visibility="visible" />
 
-        <!--<Button-->
-            <!--android:id="@+id/details"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:clickable="true"-->
-            <!--android:onClick="sendMessage"-->
-            <!--android:text="Details"-->
-            <!--android:textSize="10sp" />-->
+        <Button
+            android:id="@+id/details"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/progressBarMajor"
+            android:background="@drawable/btn_details"
+            android:clickable="true"
+            android:onClick="sendMessage"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@+id/progressBarMajor"
+            android:layout_alignStart="@+id/progressBarMajor"
+            android:layout_below="@+id/progressBarMajor"
+            android:background="@drawable/btn_delete"
+            android:textSize="8sp" />
 
 
     </RelativeLayout>

@@ -20,7 +20,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="12dp"
             android:text="Select a Major"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textAlignment="center"
             />
         <Space
@@ -30,8 +30,8 @@
         <Spinner
             android:id="@+id/selectMajorView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
+            android:layout_height="50dp"
+            android:background="@drawable/dropdown"
             android:spinnerMode="dropdown"
             />
         <Space
@@ -44,9 +44,10 @@
 
         <Button
             android:id="@+id/major_confirmation_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Confirm enrollment" />
+            android:layout_width="320dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/btn_confirm" />
     </LinearLayout>
 </RelativeLayout>
 
