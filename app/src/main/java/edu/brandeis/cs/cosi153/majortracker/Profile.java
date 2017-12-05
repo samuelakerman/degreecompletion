@@ -29,6 +29,7 @@ public class Profile extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private String email;
+    private String userId;
 
 
     @Override
@@ -47,6 +48,7 @@ public class Profile extends AppCompatActivity {
         TextView nameView = (TextView) findViewById(R.id.textViewUserName);
         Cursor c = db.rawQuery("select * from "+dbHelper.USERS_TABLE+" where "+dbHelper.COL_EMAIL+" = "+"\""+email+"\"",null);
         c.moveToFirst();
+        userId = c.getString(0);
         nameView.setText(c.getString(1));
         c.close();
 
@@ -144,5 +146,26 @@ public class Profile extends AppCompatActivity {
         intent.putExtra("userEmail",email);
         Log.v("Sending message: ","Opening details for "+message);
         startActivity(intent);
+    }
+
+    public void deleteItem(View view) {
+
+        int position = listView.getPositionForView((View) view.getParent());
+        ObjectEntry e = (ObjectEntry) listView.getItemAtPosition(position);
+        data.remove(e);
+
+        String message = e.getMajorName();
+
+        Cursor c = db.rawQuery("select * from "+dbHelper.DEPARTMENTS_TABLE+" where "+dbHelper.COL_DEPT_NAME+" =\""+message+"\"",null);
+        c.moveToFirst();
+        String deptId = c.getString(0);
+        Log.v("DEPARTMENT TO DELETE: ",deptId);
+
+        SQLiteDatabase dbChange = dbHelper.getWritableDatabase();
+        dbChange.execSQL("delete from "+dbHelper.USERSMAJORS_TABLE+" where "+dbHelper.COL_USER_ID_M+" = "+userId+" and "+dbHelper.COL_DEPT_ID_M+" = "+deptId);
+
+        majorAdapter.notifyDataSetChanged();
+        db = dbHelper.getReadableDatabase();
+
     }
 }
