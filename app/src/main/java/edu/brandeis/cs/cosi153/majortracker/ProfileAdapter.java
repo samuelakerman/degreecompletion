@@ -9,6 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 
 public class ProfileAdapter extends ArrayAdapter {
@@ -16,6 +18,7 @@ public class ProfileAdapter extends ArrayAdapter {
    // private static final android.R.attr R = ;
     private final ArrayList<ObjectEntry> data;
     private final Context context;
+    public HashMap<String,Integer> progress = new HashMap<String,Integer>();
 
     public ProfileAdapter(Context context, ArrayList<ObjectEntry> data) {
         super(context, R.layout.object_entry, data);
@@ -36,7 +39,7 @@ public class ProfileAdapter extends ArrayAdapter {
         return data.size();
     }
 
-    public Object getItem(int index) {
+    public ObjectEntry getItem(int index) {
         return data.get(index);
     }
 
@@ -52,6 +55,7 @@ public class ProfileAdapter extends ArrayAdapter {
             TextView name = (TextView) entryView.findViewById(R.id.textViewMajor);
             ProgressBar bar = (ProgressBar) entryView.findViewById(R.id.progressBarMajor);
             name.setText(data.get(index).getMajorName());
+            bar.setProgress(progress.get(data.get(index).getMajorName())*100/10);
             return entryView;
         }
         return view;

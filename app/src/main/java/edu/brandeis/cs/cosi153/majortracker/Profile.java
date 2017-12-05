@@ -57,13 +57,21 @@ public class Profile extends AppCompatActivity {
         Log.v("Total majors for user: ", majors.getCount()+"");
         majors.moveToFirst();
         while(!majors.isAfterLast()){
+            Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
+                    "where d.dept_name=\"" + majors.getString(1)+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
+            classesTaken.moveToFirst();
+            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesTaken.getString(0)+"");
+            int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
+
             ObjectEntry entry = new ObjectEntry(majors.getString(1));
+            majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
+
             data.add(entry);
             majorAdapter.notifyDataSetChanged();
             majors.moveToNext();
         }
+        majors.close();
 
-        refreshBars();
 
         final Button addMajor = (Button) findViewById(R.id.buttonAddMajor);
         final Button addClass = (Button) findViewById(R.id.buttonAddClass);
@@ -83,7 +91,7 @@ public class Profile extends AppCompatActivity {
                 //sendMessage(v);
                 Intent intent = new Intent(Profile.this,AddClasses.class);
                 intent.putExtra("user_email",email.toString());
-                startActivityForResult(intent,1);
+                startActivityForResult(intent,0);
             }
         });
 
@@ -92,46 +100,48 @@ public class Profile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         refreshBars();
+        Log.v("Request Code",requestCode+"");
         if (requestCode == 1) {
-            String majorTitle = intent.getStringExtra("majorTitle");
-            if(majorAdapter.contains(majorTitle)){
-                Toast.makeText(this,"Major already exists" ,Toast.LENGTH_LONG).show();
-            }
-            else if(majorTitle==null){
-                return;
-            }
-            else{
-                ObjectEntry entry = new ObjectEntry(majorTitle);
-                data.add(entry);
-                majorAdapter.notifyDataSetChanged();
-            }
+
+        }
+        else if(requestCode==0){
+            Log.v("DEPARTMENT",intent.getStringExtra("department")+"");
+            Log.v("CLASS",intent.getStringExtra("newClass")+"");
         }
 
     }
     private void refreshBars(){
-        Log.v("****************",majorAdapter.getCount()+"");
-        for(int i=0; i<majorAdapter.getCount(); i++){
-            View item = majorAdapter.getView(i,null,listView);
-            ProgressBar bar = (ProgressBar) item.findViewById(R.id.progressBarMajor);
-            String maj = ((TextView) item.findViewById(R.id.textViewMajor)).getText().toString();
-
+        data.clear();
+        majorAdapter.progress.clear();
+        Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
+                "where m.major_id=d._id and m.user_id=u._id ",null);
+        Log.v("Total majors for user: ", majors.getCount()+"");
+        majors.moveToFirst();
+        while(!majors.isAfterLast()){
             Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
-                    "where d.dept_name=\"" + maj+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
+                    "where d.dept_name=\"" + majors.getString(1)+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
             classesTaken.moveToFirst();
-            Log.v("Number of "+maj+" classes taken: ",classesTaken.getString(0)+"");
+            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesTaken.getString(0)+"");
             int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
+            Log.v("CLASSES TAKEN #",totalNoClassesMajorTaken+"");
 
-            //bar.setProgress(0); // call these two methods before setting progress.
-            //bar.setMax(0);
-            //bar.setMax(100);
-            bar.setProgress(totalNoClassesMajorTaken/10);
-            //bar.refreshDrawableState();
+            ObjectEntry entry = new ObjectEntry(majors.getString(1));
+
+            majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
+            classesTaken.close();
+
+            data.add(entry);
+            majorAdapter.notifyDataSetChanged();
+            majors.moveToNext();
+        }
+        majors.close();
 
         }
-    }
+
+
 
     /**
-     * Called when the user taps the Send button
+     * Called when the user taps the Details button
      */
     public void sendMessage(View view) {
 
@@ -147,7 +157,10 @@ public class Profile extends AppCompatActivity {
         Log.v("Sending message: ","Opening details for "+message);
         startActivity(intent);
     }
-
+    
+    /**
+    /* Called when user taps the Delete button
+    */
     public void deleteItem(View view) {
 
         int position = listView.getPositionForView((View) view.getParent());
@@ -168,4 +181,5 @@ public class Profile extends AppCompatActivity {
         db = dbHelper.getReadableDatabase();
 
     }
+
 }

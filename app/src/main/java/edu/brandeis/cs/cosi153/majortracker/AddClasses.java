@@ -65,9 +65,11 @@ public class AddClasses extends AppCompatActivity {
                 Spinner deptList = (Spinner) findViewById(R.id.selectDepartmentView);
                 Spinner classList = (Spinner) findViewById(R.id.selectClassView);
                 LinearLayout classLayout = (LinearLayout)((LinearLayout) classList.getChildAt(0)).getChildAt(0);
+                TextView deptlayout = (TextView)((LinearLayout) deptList.getChildAt(0)).getChildAt(0);
 
 
                 className = ((TextView) classLayout.getChildAt(0)).getText().toString();
+                deptName = deptlayout.getText().toString();
                 String userIdQUery = "select * from users where user_email=\""+email+"\"";
                 String majorIdQuery = "select * from classes where class_name=\""+className+"\"";
                 Log.v("String User",userIdQUery);
@@ -85,6 +87,8 @@ public class AddClasses extends AppCompatActivity {
                 db.insert(DatabaseHelper.PROGRESS_TABLE,null,values);
 
                 Intent returnIntent = getIntent();
+                returnIntent.putExtra("newClass",className);
+                returnIntent.putExtra("department",deptName);
                 setResult(0,returnIntent);
                 finish();
             }
