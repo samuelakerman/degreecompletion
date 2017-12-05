@@ -59,6 +59,7 @@ public class SignUpPage extends Activity {
 
                     Intent intent = new Intent(thisContext,Profile.class);
                     intent.putExtra("user_email",email.getText().toString());
+                    intent.putExtra("new_user",true);
                     startActivity(intent);
                 }
             }

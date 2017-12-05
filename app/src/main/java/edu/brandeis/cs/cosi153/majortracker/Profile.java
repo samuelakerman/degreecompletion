@@ -41,6 +41,7 @@ public class Profile extends AppCompatActivity {
         db = dbHelper.getReadableDatabase();
 
         email = getIntent().getExtras().getString("user_email");
+        boolean newUser = getIntent().getExtras().getBoolean("new_user");
 
         majorAdapter = new ProfileAdapter(this, data);
         listView = (ListView) findViewById(R.id.myListView);
@@ -55,28 +56,32 @@ public class Profile extends AppCompatActivity {
         Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
                 "where m.major_id=d._id and m.user_id=u._id ",null);
         Log.v("Total majors for user: ", majors.getCount()+"");
-        majors.moveToFirst();
-        while(!majors.isAfterLast()){
-            Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
-                    "where d.dept_name=\"" + majors.getString(1)+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
-            classesTaken.moveToFirst();
-            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesTaken.getString(0)+"");
-            int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
+        if (newUser){
+            data.clear();
+        } else {
+            majors.moveToFirst();
+            while (!majors.isAfterLast()) {
+                Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
+                        "where d.dept_name=\"" + majors.getString(1) + "\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\"" + email + "\"", null);
+                classesTaken.moveToFirst();
+                Log.v("Number of " + majors.getString(1) + " classes taken: ", classesTaken.getString(0) + "");
+                int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
 
-            ObjectEntry entry = new ObjectEntry(majors.getString(1));
-            majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
+                ObjectEntry entry = new ObjectEntry(majors.getString(1));
+                majorAdapter.progress.put(majors.getString(1), Integer.valueOf(classesTaken.getString(0)));
 
-            data.add(entry);
-            majorAdapter.notifyDataSetChanged();
-            majors.moveToNext();
+                data.add(entry);
+                majorAdapter.notifyDataSetChanged();
+                majors.moveToNext();
+            }
         }
         majors.close();
-
+        listView.setAdapter(majorAdapter);
 
         final Button addMajor = (Button) findViewById(R.id.buttonAddMajor);
         final Button addClass = (Button) findViewById(R.id.buttonAddClass);
 
-        listView.setAdapter(majorAdapter);
+
 
         addMajor.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -157,7 +162,7 @@ public class Profile extends AppCompatActivity {
         Log.v("Sending message: ","Opening details for "+message);
         startActivity(intent);
     }
-    
+
     /**
     /* Called when user taps the Delete button
     */
