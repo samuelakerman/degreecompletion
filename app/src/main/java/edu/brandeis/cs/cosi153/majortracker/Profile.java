@@ -65,6 +65,7 @@ public class Profile extends AppCompatActivity {
             majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
 
             data.add(entry);
+            entry.progress=totalNoClassesMajorTaken;
             majorAdapter.notifyDataSetChanged();
             majors.moveToNext();
         }
@@ -109,8 +110,12 @@ public class Profile extends AppCompatActivity {
 
     }
     private void refreshBars(){
+        majorAdapter = new ProfileAdapter(this, data);
+        listView = (ListView) findViewById(R.id.myListView);
+        listView.setAdapter(majorAdapter);
         data.clear();
         majorAdapter.progress.clear();
+
         Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
                 "where m.major_id=d._id and m.user_id=u._id ",null);
         Log.v("Total majors for user: ", majors.getCount()+"");
@@ -124,19 +129,18 @@ public class Profile extends AppCompatActivity {
             Log.v("CLASSES TAKEN #",totalNoClassesMajorTaken+"");
 
             ObjectEntry entry = new ObjectEntry(majors.getString(1));
-
-            majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
+            data.add(entry);
+            entry.progress=totalNoClassesMajorTaken;
+            majorAdapter.progress.put(majors.getString(1),totalNoClassesMajorTaken);
             classesTaken.close();
 
-            data.add(entry);
+
             majorAdapter.notifyDataSetChanged();
             majors.moveToNext();
         }
         majors.close();
 
         }
-
-
 
     /**
      * Called when the user taps the Send button

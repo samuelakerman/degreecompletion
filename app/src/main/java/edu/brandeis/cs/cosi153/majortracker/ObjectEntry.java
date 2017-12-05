@@ -10,6 +10,7 @@ public class ObjectEntry {
 
     private String majorName;
     private ProgressBar progressBar = null;
+    public int progress=0;
 
 
     public ObjectEntry(String majorName) {
