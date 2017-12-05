@@ -96,6 +96,9 @@ public class Profile extends AppCompatActivity {
             if(majorAdapter.contains(majorTitle)){
                 Toast.makeText(this,"Major already exists" ,Toast.LENGTH_LONG).show();
             }
+            else if(majorTitle==null){
+                return;
+            }
             else{
                 ObjectEntry entry = new ObjectEntry(majorTitle);
                 data.add(entry);
