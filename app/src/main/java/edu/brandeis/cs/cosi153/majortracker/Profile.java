@@ -83,7 +83,7 @@ public class Profile extends AppCompatActivity {
                 //sendMessage(v);
                 Intent intent = new Intent(Profile.this,AddClasses.class);
                 intent.putExtra("user_email",email.toString());
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
     }
@@ -114,7 +114,7 @@ public class Profile extends AppCompatActivity {
             Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
                     "where d.dept_name=\"" + maj+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
             classesTaken.moveToFirst();
-            Log.v("While0 ",classesTaken.getString(0)+"");
+            Log.v("Number of "+maj+" classes taken: ",classesTaken.getString(0)+"");
             int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
 
             //bar.setProgress(0); // call these two methods before setting progress.
