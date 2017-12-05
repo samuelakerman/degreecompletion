@@ -1,16 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/deptCode"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <TextView
-        android:id="@+id/deptName"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/selectMajor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="12dp"
+            android:text="Select a Major"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            />
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="60dp"/>
 
-</LinearLayout>
+        <Spinner
+            android:id="@+id/selectMajorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            />
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="60dp"/>
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/major_confirmation_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm enrollment" />
+    </LinearLayout>
+</RelativeLayout>
+
+

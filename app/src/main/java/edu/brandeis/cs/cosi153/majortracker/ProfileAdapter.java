@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,20 +16,15 @@ public class ProfileAdapter extends ArrayAdapter {
    // private static final android.R.attr R = ;
     private final ArrayList<ObjectEntry> data;
     private final Context context;
-    //ProgressBar progress = (ProgressBar) progressbar.findViewById();
-
 
     public ProfileAdapter(Context context, ArrayList<ObjectEntry> data) {
         super(context, R.layout.object_entry, data);
         this.context = context;
         this.data = data;
-        data.add(new ObjectEntry("Major 1"));
-        data.add(new ObjectEntry("Major 2"));
-        data.add(new ObjectEntry("Major 3"));
 
     }
 
-    public void addExpense(ObjectEntry item) {
+    public void addMajors(ObjectEntry item) {
         data.add(item);
     }
 
@@ -54,10 +50,18 @@ public class ProfileAdapter extends ArrayAdapter {
             View entryView = inflater.inflate(R.layout.object_entry, parent, false);
 
             TextView name = (TextView) entryView.findViewById(R.id.textViewMajor);
+            ProgressBar bar = (ProgressBar) entryView.findViewById(R.id.progressBarMajor);
             name.setText(data.get(index).getMajorName());
             return entryView;
         }
         return view;
     }
 
+    public boolean contains(String major){
+        for(ObjectEntry o : data){
+            if(o.getMajorName().equals(major))
+                return true;
+        }
+        return false;
+    }
 }

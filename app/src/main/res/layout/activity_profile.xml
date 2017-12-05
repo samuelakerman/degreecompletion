@@ -69,7 +69,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="50dp"
             android:divider="@android:color/black"
-            android:dividerHeight="1.0sp" />
+            android:dividerHeight="1.0sp"
+            android:clickable="false"/>
 
     </RelativeLayout>
 

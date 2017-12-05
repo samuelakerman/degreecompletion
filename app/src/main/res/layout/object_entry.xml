@@ -23,7 +23,7 @@
             android:textColor="#000" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBarMajor"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +33,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_toRightOf="@+id/textViewMajor"
+
 
             android:max="100"
             android:progress="0"

@@ -81,6 +81,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " FOREIGN KEY ("+COL_CLASSP_ID+") REFERENCES "+CLASSES_TABLE+"("+KEY_ID+")," +
             " FOREIGN KEY ("+COL_USERP_ID+") REFERENCES "+USERS_TABLE+"("+KEY_ID+"));";
 
+    //-----------------------------------users and majors_adapter table definition
+    public static final String USERSMAJORS_TABLE = "users_majors";
+    public static final String COL_USER_ID_M= "user_id";
+    public static final String COL_DEPT_ID_M = "major_id";
+
+    private static final String CREATE_TABLE_USERSMAJORS = "create table " + USERSMAJORS_TABLE + " (" + KEY_ID + " integer primary key, " +
+            COL_USER_ID_M + " integer, "+
+            COL_DEPT_ID_M  + " integer,"+
+            " FOREIGN KEY ("+COL_USER_ID_M +") REFERENCES "+CLASSES_TABLE+"("+KEY_ID+")," +
+            " FOREIGN KEY ("+COL_DEPT_ID_M+") REFERENCES "+DEPARTMENTS_TABLE+"("+KEY_ID+")" +
+            "UNIQUE("+COL_USER_ID_M+", "+COL_DEPT_ID_M+") ON CONFLICT REPLACE);";
+
     SQLiteDatabase myDB;
     String allMajors = "majors.txt";
     String allMinors = "minors.txt";
@@ -100,6 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         myDB.execSQL(CREATE_TABLE_CLASSES);
         myDB.execSQL(CREATE_TABLE_CLASSESMAJORS);
         myDB.execSQL(CREATE_TABLE_PROGRESS);
+        myDB.execSQL(CREATE_TABLE_USERSMAJORS);
         populateMajors();
         populateClasses();
     }

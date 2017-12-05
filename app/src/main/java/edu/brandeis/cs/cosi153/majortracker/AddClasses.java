@@ -44,7 +44,7 @@ public class AddClasses extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.classes_view);
         myContext=this;
-        db = helper.getReadableDatabase();
+        db = helper.getWritableDatabase();
         email = getIntent().getExtras().getString("user_email");
 
         Log.v("QUERY: ",deptQuery);
@@ -54,6 +54,10 @@ public class AddClasses extends AppCompatActivity {
 
         String[] fromDept = {helper.COL_DEPT_NAME};
         int[] toDept = {R.id.entry_department_name};
+
+        SimpleCursorAdapter adapterDept = new SimpleCursorAdapter(this, R.layout.department_entry, cursDept, fromDept, toDept);
+        Spinner deptList = (Spinner) findViewById(R.id.selectDepartmentView);
+        deptList.setAdapter(adapterDept);
 
         Button confButton = (Button) findViewById(R.id.class_confirmation_button);
         confButton.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +90,6 @@ public class AddClasses extends AppCompatActivity {
             }
         });
 
-        SimpleCursorAdapter adapterDept = new SimpleCursorAdapter(this, R.layout.department_entry, cursDept, fromDept, toDept);
-        Spinner deptList = (Spinner) findViewById(R.id.selectDepartmentView);
-        deptList.setAdapter(adapterDept);
 
         deptList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

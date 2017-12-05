@@ -20,8 +20,11 @@ public class ObjectEntry {
         return majorName;
     }
 
-//    public void setMajor(String majorName) {
-//        this.majorName = majorName;
-//    }
+    public ProgressBar getProgressBar(){
+        return  progressBar;
+    }
+    public void setProgressBar(ProgressBar bar){
+        progressBar=bar;
+    }
 
 }
