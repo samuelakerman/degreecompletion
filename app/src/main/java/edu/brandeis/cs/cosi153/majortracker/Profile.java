@@ -128,4 +128,19 @@ public class Profile extends AppCompatActivity {
 
         }
     }
+
+    /**
+     * Called when the user taps the Send button
+     */
+    public void sendMessage(View view) {
+
+        Intent intent = new Intent(Profile.this, ClassesList.class);
+        TextView textView = (TextView) findViewById(R.id.textViewMajor);
+
+        String message = textView.getText().toString();
+        intent.putExtra("majorDetails",message);
+        intent.putExtra("userEmail",email);
+        Log.v("Sending message: ","Opening details for "+message);
+        startActivity(intent);
+    }
 }
