@@ -57,7 +57,6 @@ public class ProfileAdapter extends ArrayAdapter {
             bar.setMax(0);
             bar.setMax(100);
             bar.setProgress(progress.get(data.get(index).getMajorName())*100/10);
-            bar.setProgress(progress.get(data.get(index).getMajorName())*100/10,true);
             bar.refreshDrawableState();
             return entryView;
         }
