@@ -62,7 +62,6 @@ public class Profile extends AppCompatActivity {
         });
         addClass.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                //sendMessage(v);
                 Intent intent = new Intent(Profile.this,AddClasses.class);
                 intent.putExtra("user_email",email.toString());
                 startActivityForResult(intent,0);
@@ -85,22 +84,23 @@ public class Profile extends AppCompatActivity {
 
     }
     private void showBars(){
-        majorAdapter.clear();
-        data.clear();
-        majorAdapter = new ProfileAdapter(this, data);
-        listView = (ListView) findViewById(R.id.myListView);
-        listView.setAdapter(majorAdapter);
-        data.clear();
-        majorAdapter.progress.clear();
+            majorAdapter.clear();
+            data.clear();
+            majorAdapter = new ProfileAdapter(this, data);
+            listView = (ListView) findViewById(R.id.myListView);
+            listView.setAdapter(majorAdapter);
+            data.clear();
+            majorAdapter.progress.clear();
 
-        Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
-                "where m.major_id=d._id and m.user_id=u._id and u.user_email=\""+email+"\"",null);
-        Log.v("Total majors for user: ", majors.getCount()+"");
-        majors.moveToFirst();
-        while(!majors.isAfterLast()){
-                       String classesTaken = "select count(*) from "+dbHelper.PROGRESS_TABLE+" as pro, "+dbHelper.USERS_TABLE+" as us, "+dbHelper.CLASSESMAJORS_TABLE+" as cm, "+dbHelper.DEPARTMENTS_TABLE+" as dept, "+
-                    dbHelper.CLASSES_TABLE+" as cl where pro."+dbHelper.COL_USERP_ID+" = us."+dbHelper.KEY_ID+" and pro."+dbHelper.COL_CLASSP_ID+" = cm."+dbHelper.COL_CLASS_ID+" and cm."+ dbHelper.COL_CLASS_ID+
-                    " = cl."+dbHelper.KEY_ID+" and cm."+dbHelper.COL_DEPT_ID+" = dept."+dbHelper.KEY_ID+" and us."+dbHelper.COL_EMAIL+" = \""+email+"\" and dept."+dbHelper.COL_DEPT_NAME+" = \""+majors.getString(1)+"\"";
+            Cursor majors = db.rawQuery("select * from "+dbHelper.DEPARTMENTS_TABLE+" as d, "+dbHelper.USERS_TABLE+" as u, "+dbHelper.USERSMAJORS_TABLE+" as m " +
+                    "where m."+dbHelper.COL_DEPT_ID+"=d."+dbHelper.KEY_ID+" and m."+dbHelper.COL_USERP_ID+"=u."+dbHelper.KEY_ID+" and u."+dbHelper.COL_EMAIL+"=\""+email+"\"",null);
+            Log.v("Total majors for user: ", majors.getCount()+"");
+            majors.moveToFirst();
+            while(!majors.isAfterLast()){
+            String classesTaken = "select count(*) from "+dbHelper.PROGRESS_TABLE+" as pro, "+dbHelper.USERS_TABLE+" as us, "+dbHelper.CLASSESMAJORS_TABLE+" as cm, "+dbHelper.DEPARTMENTS_TABLE+" as dept, "+
+            dbHelper.CLASSES_TABLE+" as cl where pro."+dbHelper.COL_USERP_ID+" = us."+dbHelper.KEY_ID+" and pro."+dbHelper.COL_CLASSP_ID+" = cm."+dbHelper.COL_CLASS_ID+" and cm."+ dbHelper.COL_CLASS_ID+
+            " = cl."+dbHelper.KEY_ID+" and cm."+dbHelper.COL_DEPT_ID+" = dept."+dbHelper.KEY_ID+" and us."+dbHelper.COL_EMAIL+" = \""+email+"\" and dept."+dbHelper.COL_DEPT_NAME+" = \""+majors.getString(1)+"\"";
+
             Cursor classesMajors = db.rawQuery(classesTaken,null);
             Log.v("QUERY:",classesTaken);
             classesMajors.moveToFirst();
@@ -114,19 +114,16 @@ public class Profile extends AppCompatActivity {
             majorAdapter.progress.put(majors.getString(1),totalNoClassesMajorTaken);
             classesMajors.close();
 
-
             majorAdapter.notifyDataSetChanged();
             majors.moveToNext();
-        }
-        majors.close();
-
+            }
+            majors.close();
         }
 
     /**
      * Called when the user taps the Details button
      */
-    public void sendMessage(View view) {
-
+    public void showClassesMajor(View view) {
         int position = listView.getPositionForView((View) view.getParent());
         ObjectEntry e = (ObjectEntry) listView.getItemAtPosition(position);
 

@@ -45,7 +45,7 @@
             android:layout_below="@id/progressBarMajor"
             android:background="@drawable/btn_details"
             android:clickable="true"
-            android:onClick="sendMessage"
+            android:onClick="showClassesMajor"
             android:textSize="8sp" />
 
         <Button

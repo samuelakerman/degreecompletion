@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 public class ProfileAdapter extends ArrayAdapter {
 
-   // private static final android.R.attr R = ;
     private final ArrayList<ObjectEntry> data;
     private final Context context;
     public static HashMap<String,Integer> progress = new HashMap<String,Integer>();
@@ -23,7 +22,6 @@ public class ProfileAdapter extends ArrayAdapter {
         super(context, R.layout.object_entry, data);
         this.context = context;
         this.data = data;
-
     }
 
     public void addMajors(ObjectEntry item) {
