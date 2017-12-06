@@ -56,6 +56,7 @@
             android:layout_alignStart="@+id/progressBarMajor"
             android:layout_below="@+id/progressBarMajor"
             android:background="@drawable/btn_delete"
+            android:onClick="deleteItem"
             android:textSize="8sp" />
 
 

@@ -29,6 +29,7 @@ public class Profile extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private String email;
+    private String userId;
 
 
     @Override
@@ -40,42 +41,16 @@ public class Profile extends AppCompatActivity {
         db = dbHelper.getReadableDatabase();
 
         email = getIntent().getExtras().getString("user_email");
+        boolean newUser = getIntent().getExtras().getBoolean("new_user");
 
         majorAdapter = new ProfileAdapter(this, data);
         listView = (ListView) findViewById(R.id.myListView);
 
-        TextView nameView = (TextView) findViewById(R.id.textViewUserName);
-        Cursor c = db.rawQuery("select * from "+dbHelper.USERS_TABLE+" where "+dbHelper.COL_EMAIL+" = "+"\""+email+"\"",null);
-        c.moveToFirst();
-        nameView.setText(c.getString(1));
-        c.close();
-
-        Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
-                "where m.major_id=d._id and m.user_id=u._id ",null);
-        Log.v("Total majors for user: ", majors.getCount()+"");
-        majors.moveToFirst();
-        while(!majors.isAfterLast()){
-            Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
-                    "where d.dept_name=\"" + majors.getString(1)+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
-            classesTaken.moveToFirst();
-            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesTaken.getString(0)+"");
-            int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
-
-            ObjectEntry entry = new ObjectEntry(majors.getString(1));
-            majorAdapter.progress.put(majors.getString(1),Integer.valueOf(classesTaken.getString(0)));
-
-            data.add(entry);
-            entry.progress=totalNoClassesMajorTaken;
-            majorAdapter.notifyDataSetChanged();
-            majors.moveToNext();
-        }
-        majors.close();
-
+        helloName();
+        showBars();
 
         final Button addMajor = (Button) findViewById(R.id.buttonAddMajor);
         final Button addClass = (Button) findViewById(R.id.buttonAddClass);
-
-        listView.setAdapter(majorAdapter);
 
         addMajor.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -98,7 +73,7 @@ public class Profile extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        refreshBars();
+        showBars();
         Log.v("Request Code",requestCode+"");
         if (requestCode == 1) {
 
@@ -109,7 +84,9 @@ public class Profile extends AppCompatActivity {
         }
 
     }
-    private void refreshBars(){
+    private void showBars(){
+        majorAdapter.clear();
+        data.clear();
         majorAdapter = new ProfileAdapter(this, data);
         listView = (ListView) findViewById(R.id.myListView);
         listView.setAdapter(majorAdapter);
@@ -117,22 +94,25 @@ public class Profile extends AppCompatActivity {
         majorAdapter.progress.clear();
 
         Cursor majors = db.rawQuery("select * from departments as d, users as u, users_majors as m " +
-                "where m.major_id=d._id and m.user_id=u._id ",null);
+                "where m.major_id=d._id and m.user_id=u._id and u.user_email=\""+email+"\"",null);
         Log.v("Total majors for user: ", majors.getCount()+"");
         majors.moveToFirst();
         while(!majors.isAfterLast()){
-            Cursor classesTaken = db.rawQuery("select count(*) from classes_majors as c, classes as cl, departments as d, progress as p, users as us\n" +
-                    "where d.dept_name=\"" + majors.getString(1)+"\" and d._id =c.major_id and c.class_id = cl._id and cl._id=p.class_id and us.user_email=\""+email+"\"",null);
-            classesTaken.moveToFirst();
-            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesTaken.getString(0)+"");
-            int totalNoClassesMajorTaken = Integer.valueOf(classesTaken.getString(0));
+                       String classesTaken = "select count(*) from "+dbHelper.PROGRESS_TABLE+" as pro, "+dbHelper.USERS_TABLE+" as us, "+dbHelper.CLASSESMAJORS_TABLE+" as cm, "+dbHelper.DEPARTMENTS_TABLE+" as dept, "+
+                    dbHelper.CLASSES_TABLE+" as cl where pro."+dbHelper.COL_USERP_ID+" = us."+dbHelper.KEY_ID+" and pro."+dbHelper.COL_CLASSP_ID+" = cm."+dbHelper.COL_CLASS_ID+" and cm."+ dbHelper.COL_CLASS_ID+
+                    " = cl."+dbHelper.KEY_ID+" and cm."+dbHelper.COL_DEPT_ID+" = dept."+dbHelper.KEY_ID+" and us."+dbHelper.COL_EMAIL+" = \""+email+"\" and dept."+dbHelper.COL_DEPT_NAME+" = \""+majors.getString(1)+"\"";
+            Cursor classesMajors = db.rawQuery(classesTaken,null);
+            Log.v("QUERY:",classesTaken);
+            classesMajors.moveToFirst();
+            Log.v("Number of "+majors.getString(1)+" classes taken: ",classesMajors.getString(0)+"");
+            int totalNoClassesMajorTaken = Integer.valueOf(classesMajors.getString(0));
             Log.v("CLASSES TAKEN #",totalNoClassesMajorTaken+"");
 
             ObjectEntry entry = new ObjectEntry(majors.getString(1));
             data.add(entry);
             entry.progress=totalNoClassesMajorTaken;
             majorAdapter.progress.put(majors.getString(1),totalNoClassesMajorTaken);
-            classesTaken.close();
+            classesMajors.close();
 
 
             majorAdapter.notifyDataSetChanged();
@@ -143,7 +123,7 @@ public class Profile extends AppCompatActivity {
         }
 
     /**
-     * Called when the user taps the Send button
+     * Called when the user taps the Details button
      */
     public void sendMessage(View view) {
 
@@ -160,4 +140,36 @@ public class Profile extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+    /* Called when user taps the Delete button
+    */
+    public void deleteItem(View view) {
+
+        int position = listView.getPositionForView((View) view.getParent());
+        ObjectEntry e = (ObjectEntry) listView.getItemAtPosition(position);
+        data.remove(e);
+
+        String message = e.getMajorName();
+
+        Cursor c = db.rawQuery("select * from "+dbHelper.DEPARTMENTS_TABLE+" where "+dbHelper.COL_DEPT_NAME+" =\""+message+"\"",null);
+        c.moveToFirst();
+        String deptId = c.getString(0);
+        Log.v("DEPARTMENT TO DELETE: ",deptId);
+
+        SQLiteDatabase dbChange = dbHelper.getWritableDatabase();
+        dbChange.execSQL("delete from "+dbHelper.USERSMAJORS_TABLE+" where "+dbHelper.COL_USER_ID_M+" = "+userId+" and "+dbHelper.COL_DEPT_ID_M+" = "+deptId);
+
+        majorAdapter.notifyDataSetChanged();
+        db = dbHelper.getReadableDatabase();
+
+    }
+
+    public void helloName(){
+        TextView nameView = (TextView) findViewById(R.id.textViewUserName);
+        Cursor c = db.rawQuery("select * from "+dbHelper.USERS_TABLE+" where "+dbHelper.COL_EMAIL+" = "+"\""+email+"\"",null);
+        c.moveToFirst();
+        userId = c.getString(0);
+        nameView.setText(c.getString(1));
+        c.close();
+    }
 }

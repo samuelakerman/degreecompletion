@@ -46,6 +46,7 @@ public class LogInPage  extends Activity{
                 else{
                     Intent intent = new Intent(thisContext,Profile.class);
                     intent.putExtra("user_email",email.getText().toString());
+                    intent.putExtra("new_user",false);
                     startActivity(intent);
                 }
 
